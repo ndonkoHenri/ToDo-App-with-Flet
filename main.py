@@ -1,6 +1,8 @@
+import time
 import flet
 from flet import (Page, Text, Row, TextField, ElevatedButton, Column, Checkbox, Ref, IconButton, FloatingActionButton,
-                  icons, UserControl, Tabs, Tab, Divider, Theme, SnackBar, AlertDialog, TextButton, colors)
+                  icons, UserControl, Tabs, Tab, Divider, Theme, SnackBar, AlertDialog, TextButton, colors, ProgressBar,
+                  Image)
 from flet.control_event import ControlEvent
 
 
@@ -69,7 +71,7 @@ class ToDO(UserControl):
         :param item: The to-do item to be deleted
         """
         self.page.dialog.open = True
-        # self.tasks_view.current.controls.remove(item)
+        self.tasks_view.current.controls.remove(item)
         # It updates the UI.
         self.page.update()
         # self.update()
@@ -117,24 +119,27 @@ class ToDO(UserControl):
         self.main_container = Ref[Column]()
         self.tabs = Ref[Tabs]()
 
-        return Column(
-            ref=self.main_container,
-            controls=[
-                Row(
-                    controls=[TextField(ref=self.text_field, helper_text="What do you plan to do?",
-                                        hint_text="ex: learn flutter..", counter_text='0 chars',
-                                        keyboard_type="text", label="New Item", expand=True,
-                                        tooltip="Field for new items", prefix_icon=icons.LIST_ALT_ROUNDED,
-                                        autofocus=True, on_change=self.counter_text_change, on_submit=self.submit_item),
-                              FloatingActionButton(icon=icons.ADD, tooltip="add item", on_click=self.submit_item)]),
-                Tabs(ref=self.tabs,
-                     tabs=[Tab(text='all', icon=icons.CHECKLIST_OUTLINED), Tab(text='not yet done', icon=icons.CHECK),
-                           Tab(text='done', icon=icons.DONE_ALL)],
-                     selected_index=0, on_change=self.tabs_change
-                     ),
-                Column(ref=self.tasks_view, scroll="always")
-            ], spacing=24, width=600
-        )
+        return Column(ref=self.main_container,
+                      controls=[
+                          Row(
+                              controls=[
+                                  TextField(ref=self.text_field, helper_text="What do you plan to do?",
+                                            hint_text="ex: learn flutter..", counter_text='0 chars',
+                                            keyboard_type="text", label="New Item", expand=True, text_size=20,
+                                            tooltip="Field for new items", prefix_icon=icons.LIST_ALT_ROUNDED,
+                                            autofocus=True, on_change=self.counter_text_change,
+                                            on_submit=self.submit_item),
+                                  FloatingActionButton(icon=icons.ADD, tooltip="add item",
+                                                       on_click=self.submit_item)]),
+                          Tabs(ref=self.tabs,
+                               tabs=[Tab(text='all', icon=icons.CHECKLIST_OUTLINED),
+                                     Tab(text='not yet done', icon=icons.CHECK),
+                                     Tab(text='done', icon=icons.DONE_ALL)],
+                               selected_index=0, on_change=self.tabs_change
+                               ),
+                          Column(ref=self.tasks_view, scroll="always", )
+                      ], spacing=24, width=600
+                      )
 
 
 class TodoItem(UserControl):
@@ -159,7 +164,7 @@ class TodoItem(UserControl):
     def save_edit(self, e):
         """
         It makes the normal_view visible, the edit_view invisible and sets the
-        label of the checkbox to the value of the text field in the edit_view
+        label of the checkbox to the value from the text field in the edit_view
 
         :param e: The event that triggered the function (ControlEvent)
         """
@@ -210,19 +215,24 @@ class TodoItem(UserControl):
         return Column(
             controls=[
                 Row(ref=self.normal_view,
-                    controls=[Checkbox(ref=self.item_checkbox, label=self.item_text, value=False,
-                                       on_change=self.item_checkbox_value_change),
-                              Row(controls=[
-                                  IconButton(icon=icons.EDIT, on_click=self.edit_item, tooltip="update item", ),
-                                  IconButton(icon=icons.DELETE_FOREVER, tooltip="delete item",
-                                             on_click=self.delete_item, )])
-                              ], alignment="spaceBetween"
+                    controls=[
+                        Checkbox(ref=self.item_checkbox, label=self.item_text, value=False,
+                                 on_change=self.item_checkbox_value_change),
+                        Row(controls=[
+                            IconButton(icon=icons.EDIT, icon_color=colors.LIGHT_GREEN_ACCENT_700,
+                                       on_click=self.edit_item,
+                                       tooltip="update item", ),
+                            IconButton(icon=icons.DELETE_FOREVER, icon_color=colors.RED_900,
+                                       tooltip="delete item",
+                                       on_click=self.delete_item, )])
+                    ], alignment="spaceBetween"
                     ),
                 Row(ref=self.edit_view, visible=False,
-                    controls=[TextField(ref=self.text_field, value=self.item_text, tooltip="field to edit the item",
-                                        autofocus=False, label="Edit Item", expand=True,
-                                        suffix=ElevatedButton(text="Update", on_click=self.save_edit))
-                              ],
+                    controls=[
+                        TextField(ref=self.text_field, value=self.item_text, tooltip="field to edit the item",
+                                  autofocus=False, label="Edit Item", expand=True,
+                                  suffix=ElevatedButton(text="Update", on_click=self.save_edit))
+                    ],
                     )
             ],
         )
@@ -252,15 +262,40 @@ def main(page: Page):
     page.theme = Theme(font_family="San-Francisco")
     page.snack_bar = SnackBar(Text("Added New To-Do Item"), action="OK", bgcolor=colors.BLACK87)
 
+    p_bar = ProgressBar(bar_height=3.5, visible=False)
+
+    # page.scroll= "always"
     def snackbar_callback(instance):
         page.snack_bar.open = True
         page.update()
 
+    def change_bg_theme(e):
+        """
+        Changes the theme of the application from a Light to Dark theme or the reverse.
+
+        :param e: The event that triggered the callback (ControlEvent)
+        """
+        p_bar.visible = True
+        page.update()
+        page.theme_mode = "light" if page.theme_mode == "dark" else "dark"
+        p_bar.visible = False
+        theme_icon_button.selected = not theme_icon_button.selected
+        time.sleep(1.2)
+        page.update()
+
     todo_instance = ToDO(page, snackbar_callback)  # an instance of our custom created class
+    theme_icon_button = IconButton(icons.DARK_MODE, selected_icon=icons.LIGHT_MODE, selected=False,
+                                   on_click=change_bg_theme)
 
     # add the Text widget, the Divider widget, and the ToDo widget to the page.
     page.add(
-        Text(value="myToDo App", text_align="center", style="headlineLarge", selectable=True),
+        p_bar,
+        Row(controls=[
+            Text(value="myToDo App", text_align="center", style="headlineLarge", selectable=True),
+            Row([Image("/icons/icon-512.png", width=48, height=48, fit="contain"),
+                 theme_icon_button])
+        ],
+            alignment="spaceAround", ),
         Divider(),
         todo_instance,
         Text("Made by TheEthicalBoy", italic=True, color="blue", text_align="end", expand=True, )
