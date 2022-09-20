@@ -4,6 +4,9 @@ from flet import (Page, Text, Row, TextField, ElevatedButton, Column, Checkbox, 
                   icons, UserControl, Tabs, Tab, Divider, Theme, SnackBar, AlertDialog, TextButton, colors, ProgressBar,
                   Image)
 from flet.control_event import ControlEvent
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 class ToDO(UserControl):
@@ -240,7 +243,7 @@ class TodoItem(UserControl):
 
 def main(page: Page):
     """
-    Create the entry Page of the APP
+    The entry/main Page of the APP
 
     :param page: Page: The page object that is passed to the main function
     :type page: Page
@@ -256,11 +259,13 @@ def main(page: Page):
     # set the vertical alignment of the page to start, similar to the top of the page.
     page.vertical_alignment = "start"
     # add a custom font found in the assets/fonts file
-    page.fonts = {"San-Francisco": "/fonts/San-Francisco/SFUIDisplay-Light.ttf"}
+    page.fonts = {"SF-simple": "/fonts/San-Francisco/SFUIDisplay-Light.ttf",
+                  "SF-bold": "/fonts/San-Francisco/SFUIDisplay-Bold.ttf"}
 
     page.theme_mode = "light"
-    page.theme = Theme(font_family="San-Francisco")
-    page.snack_bar = SnackBar(Text("Added New To-Do Item"), action="OK", bgcolor=colors.BLACK87)
+    page.theme = Theme(font_family="SF-simple", use_material3=True, visual_density="compact", )
+
+    page.snack_bar = SnackBar(Text("Added New To-Do Item"), action="OK!", bgcolor=colors.BLACK87)
 
     p_bar = ProgressBar(bar_height=3.5, visible=False)
 
@@ -291,7 +296,8 @@ def main(page: Page):
     page.add(
         p_bar,
         Row(controls=[
-            Text(value="myToDo App", text_align="center", style="headlineLarge", selectable=True),
+            Text(value="myToDo App", text_align="center", selectable=False, font_family="SF-bold", weight="bold",
+                 size=40),
             Row([Image("/icons/icon-512.png", width=48, height=48, fit="contain"),
                  theme_icon_button])
         ],
