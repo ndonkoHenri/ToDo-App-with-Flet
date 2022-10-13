@@ -1,5 +1,6 @@
-app = "mytodoapp"
+# fly.toml file generated for mytodo on 2022-10-13T09:18:00+02:00
 
+app = "mytodo"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
@@ -17,7 +18,6 @@ processes = []
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
-
   [services.concurrency]
     hard_limit = 25
     soft_limit = 20
