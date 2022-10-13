@@ -322,7 +322,11 @@ def main(page: Page):
     page.title = "myToDo App"
 
     # make the window always on top of other windows.
-    page.window_always_on_top = True
+    # page.window_always_on_top = True
+
+    # set the width and height of the window.
+    page.window_width = 562
+    page.window_height = 720
 
     # set the horizontal alignment of the page to center(in the horizontal middle).
     page.horizontal_alignment = "center"
@@ -349,10 +353,10 @@ def main(page: Page):
 
         :param e: The event that triggered the callback (ControlEvent)
         """
-        p_bar.visible = True
+        page.splash.visible = True
         page.update()
         page.theme_mode = "light" if page.theme_mode == "dark" else "dark"
-        p_bar.visible = False
+        page.splash.visible = False
         theme_icon_button.selected = not theme_icon_button.selected
         time.sleep(1.2)
         page.update()
