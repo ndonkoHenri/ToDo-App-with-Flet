@@ -1,15 +1,19 @@
-
 # ToDo-App-with-Flet
+
  A ToDo list application(web and pc for now) implemented following the CRUD(Create-Read-Update-Delete) programming principle.
 
 ## How to Start using?
-Web version: Deployed on [mytodo.fly.dev](https://mytodo.fly.dev/) (hopefully still alive)
-PC Version(MacOS, Linux, Windows): Download from the [releases section of this repo](https://github.com/ndonkoHenri/ToDo-App-with-Flet/releases).
+
+**_Web version_**: Deployed on [mytodo.fly.dev](https://mytodo.fly.dev/) (hopefully still alive)
+
+**_PC Version(MacOS, Linux, Windows)_**: Download from the [releases section of this repo](https://github.com/ndonkoHenri/ToDo-App-with-Flet/releases).
  
- **Video**
+ ### Video
+ 
  ![mytodo gif](https://user-images.githubusercontent.com/98978078/195563023-fb30951c-b5f4-40bb-8cb5-61ecea1ac4da.gif)
  
  ## Issues and Contribution
+ 
 If you have any error/issue/problem using this app, please raise one on the [Issues section of this repo](https://github.com/ndonkoHenri/ToDo-App-with-Flet/issues).
 Also, feel free to a drop a pull request in case you wish to contribute.
 
