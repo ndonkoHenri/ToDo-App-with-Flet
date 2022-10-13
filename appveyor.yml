@@ -14,7 +14,7 @@ install:
 - pip install -r requirements.txt
 
 build_script:
-- pyinstaller main.py --name myToDo --noconsole --noconfirm --onefile --icon "pc-logo.png" --splash "pc-logo.png"
+- pyinstaller main.py --name myToDo --noconsole --noconfirm --onefile --icon "pc-logo.png"
 test: off
 
 # Publish artifacts to GitHub Releases on "tag" builds
