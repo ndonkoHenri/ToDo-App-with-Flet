@@ -397,4 +397,4 @@ def main(page: Page):
 
 
 # running the app
-flet.app(target=main, view=flet.WEB_BROWSER, assets_dir="assets", port=8080)
+flet.app(target=main, view=flet.WEB_BROWSER, assets_dir="assets")
