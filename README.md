@@ -17,6 +17,6 @@
 If you have any error/issue/problem using this app, please raise one on the [Issues section of this repo](https://github.com/ndonkoHenri/ToDo-App-with-Flet/issues).
 Also, feel free to a drop a pull request in case you wish to contribute.
 
-**Flet-ty MEME**:
+**Flet-ty MEME by [@Hololeo](https://github.com/hololeo)**:
 
 <img src="https://user-images.githubusercontent.com/98978078/195565736-170f1aea-ed0b-433c-ab2d-3a34d23a6994.jpeg" alt="thats-the-power-of-flet" width=40% align="center">
