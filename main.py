@@ -1,16 +1,12 @@
 import time
-import flet
-from flet import (Page, Text, Row, TextField, ElevatedButton, Column, Checkbox, Ref, IconButton, FloatingActionButton,
-                  icons, UserControl, Tabs, Tab, Divider, Theme, SnackBar, AlertDialog, TextButton, colors,
-                  ProgressBar, )
-from flet.control_event import ControlEvent
+import flet as ft
 
 
 # import logging
 # logging.basicConfig(level=logging.DEBUG)
 
 
-class ToDO(UserControl):
+class ToDO(ft.UserControl):
 
     def __init__(self):
         super().__init__()
@@ -18,15 +14,15 @@ class ToDO(UserControl):
         self.tasks_view = None
         self.text_field = None
         self.tabs = None
-        self.delete_dialog = AlertDialog(
+        self.delete_dialog = ft.AlertDialog(
             modal=True,
-            title=Text("Please confirm"),
-            content=Text("Do you really want to delete this item?"),
+            title=ft.Text("Please confirm"),
+            content=ft.Text("Do you really want to delete this item?"),
             actions=[
-                TextButton("Yes", on_click=self.delete_confirmed),
-                TextButton("No", on_click=self.close_dialog),
+                ft.TextButton("Yes", on_click=self.delete_confirmed),
+                ft.TextButton("No", on_click=self.close_dialog),
             ],
-            actions_alignment="end",
+            actions_alignment=ft.MainAxisAlignment.END,
             on_dismiss=lambda e: print("Modal dialog dismissed!"),
         )
 
@@ -47,8 +43,8 @@ class ToDO(UserControl):
         self.delete_dialog.open = False
         e.page.update()
         e.page.show_snack_bar(
-            SnackBar(
-                Text("Deleted Item successfully!"),
+            ft.SnackBar(
+                ft.Text("Deleted Item successfully!"),
                 action="OK!",
                 open=True
             )
@@ -92,7 +88,7 @@ class ToDO(UserControl):
         self.tasks_view.current.controls.remove(item)
         self.update()
 
-    def submit_item(self, e: ControlEvent):
+    def submit_item(self, e: ft.ControlEvent):
         """
         It creates a new TodoItem object, adds it to the list of controls in the tasks_view(below the tabs),
         and then clears the text field
@@ -105,8 +101,8 @@ class ToDO(UserControl):
             self.text_field.current.value = ""
             self.text_field.current.counter_text = '0 chars'
             self.page.show_snack_bar(
-                SnackBar(
-                    Text("Added New To-Do Item"),
+                ft.SnackBar(
+                    ft.Text("Added New To-Do Item"),
                     action="OK!",
                     open=True
                 )
@@ -121,7 +117,7 @@ class ToDO(UserControl):
         """
         self.update()
 
-    def counter_text_change(self, e: ControlEvent):
+    def counter_text_change(self, e: ft.ControlEvent):
         """
         It updates the counter text of the text field.
 
@@ -135,58 +131,58 @@ class ToDO(UserControl):
         It builds the UI with a maximum width of 600px.
         :return: A Column widget with a Row widget and a Tabs widget as its children.
         """
-        self.text_field = Ref[TextField]()
-        self.tasks_view = Ref[Column]()
-        self.main_container = Ref[Column]()
-        self.tabs = Ref[Tabs]()
+        self.text_field = ft.Ref[ft.TextField]()
+        self.tasks_view = ft.Ref[ft.Column]()
+        self.main_container = ft.Ref[ft.Column]()
+        self.tabs = ft.Ref[ft.Tabs]()
 
-        return Column(ref=self.main_container,
-                      controls=[
-                          Row(
-                              controls=[
-                                  TextField(
-                                      ref=self.text_field,
-                                      helper_text="What do you plan to do?",
-                                      hint_text="ex: learn flutter..",
-                                      counter_text='0 chars',
-                                      keyboard_type="text",
-                                      label="New Item",
-                                      expand=True,
-                                      text_size=20,
-                                      tooltip="Field for new items",
-                                      prefix_icon=icons.LIST_ALT_ROUNDED,
-                                      autofocus=True,
-                                      on_change=self.counter_text_change,
-                                      on_submit=self.submit_item
-                                  ),
-                                  FloatingActionButton(
-                                      icon=icons.ADD,
-                                      tooltip="add item",
-                                      on_click=self.submit_item
-                                  )
-                              ]
-                          ),
-                          Tabs(
-                              ref=self.tabs,
-                              tabs=[
-                                  Tab(text='all', icon=icons.CHECKLIST_OUTLINED),
-                                  Tab(text='not yet done', icon=icons.CHECK),
-                                  Tab(text='done', icon=icons.DONE_ALL)
-                              ],
-                              selected_index=0,
-                              on_change=self.tabs_change
-                          ),
-                          Column(
-                              ref=self.tasks_view,
-                              scroll="always"
-                          )
-                      ],
-                      spacing=24,
-                      width=630
-                      )
+        return ft.Column(ref=self.main_container,
+                         controls=[
+                             ft.Row(
+                                 controls=[
+                                     ft.TextField(
+                                         ref=self.text_field,
+                                         helper_text="What do you plan to do?",
+                                         hint_text="ex: learn flutter..",
+                                         counter_text='0 chars',
+                                         keyboard_type=ft.KeyboardType.TEXT,
+                                         label="New Item",
+                                         expand=True,
+                                         text_size=20,
+                                         tooltip="Field for new items",
+                                         prefix_icon=ft.icons.LIST_ALT_ROUNDED,
+                                         autofocus=True,
+                                         on_change=self.counter_text_change,
+                                         on_submit=self.submit_item
+                                     ),
+                                     ft.FloatingActionButton(
+                                         icon=ft.icons.ADD,
+                                         tooltip="add item",
+                                         on_click=self.submit_item
+                                     )
+                                 ]
+                             ),
+                             ft.Tabs(
+                                 ref=self.tabs,
+                                 tabs=[
+                                     ft.Tab(text='all', icon=ft.icons.CHECKLIST_OUTLINED),
+                                     ft.Tab(text='not yet done', icon=ft.icons.CHECK),
+                                     ft.Tab(text='done', icon=ft.icons.DONE_ALL)
+                                 ],
+                                 selected_index=0,
+                                 on_change=self.tabs_change
+                             ),
+                             ft.Column(
+                                 ref=self.tasks_view,
+                                 scroll=ft.ScrollMode.ALWAYS
+                             )
+                         ],
+                         spacing=24,
+                         width=630
+                         )
 
 
-class TodoItem(UserControl):
+class TodoItem(ft.UserControl):
     def __init__(self, item_text, checkbox_change, delete_dialog_callback):
         """
         The function takes in three arguments: item_text, checkbox_change, and delete_callback. It then calls the
@@ -200,10 +196,10 @@ class TodoItem(UserControl):
         self.item_text = item_text
         self.open_delete_dialog = delete_dialog_callback
         self.checkbox_change = checkbox_change
-        self.normal_view = Ref[Row]()
-        self.edit_view = Ref[Row]()
-        self.item_checkbox = Ref[Checkbox]()
-        self.text_field = Ref[TextField]()
+        self.normal_view = ft.Ref[ft.Row]()
+        self.edit_view = ft.Ref[ft.Row]()
+        self.item_checkbox = ft.Ref[ft.Checkbox]()
+        self.text_field = ft.Ref[ft.TextField]()
 
     def save_edit(self, e):
         """
@@ -219,8 +215,23 @@ class TodoItem(UserControl):
         # It updates the UI.
         self.update()
         e.page.show_snack_bar(
-            SnackBar(
-                Text("Updated Item successfully!"),
+            ft.SnackBar(
+                ft.Text("Updated Item successfully!"),
+                action="OK!",
+                open=True
+            )
+        )
+
+    def copy_item(self, e):
+        """
+        Copies Text of to-do Item to clipboard.
+
+        :param e: The event that triggered this function (ControlEvent)
+        """
+        e.page.set_clipboard(self.item_checkbox.current.label)
+        e.page.show_snack_bar(
+            ft.SnackBar(
+                ft.Text("Content copied to Clipboard!"),
                 action="OK!",
                 open=True
             )
@@ -262,40 +273,46 @@ class TodoItem(UserControl):
         :return: Column --<
                             Row (Textfield and an Update button)
         """
-        return Column(
+        return ft.Column(
             controls=[
-                Row(
+                ft.Row(
                     ref=self.normal_view,
                     controls=[
-                        Checkbox(
+                        ft.Checkbox(
                             ref=self.item_checkbox,
                             label=self.item_text,
                             value=False,
                             on_change=self.item_checkbox_value_change),
-                        Row(
+                        ft.Row(
                             controls=[
-                                IconButton(
-                                    icon=icons.EDIT,
-                                    icon_color=colors.LIGHT_GREEN_ACCENT_700,
+                                ft.IconButton(
+                                    icon=ft.icons.COPY,
+                                    icon_color=ft.colors.BLUE,
+                                    tooltip="copy",
+                                    on_click=self.copy_item,
+                                ),
+                                ft.IconButton(
+                                    icon=ft.icons.EDIT,
+                                    icon_color=ft.colors.LIGHT_GREEN_ACCENT_700,
                                     on_click=self.edit_item,
                                     tooltip="update item",
                                 ),
-                                IconButton(
-                                    icon=icons.DELETE_FOREVER,
-                                    icon_color=colors.RED_900,
+                                ft.IconButton(
+                                    icon=ft.icons.DELETE_FOREVER,
+                                    icon_color=ft.colors.RED_900,
                                     tooltip="delete item",
                                     on_click=self.delete_item,
                                 ),
                             ]
                         )
                     ],
-                    alignment="spaceBetween"
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN
                 ),
-                Row(
+                ft.Row(
                     ref=self.edit_view,
                     visible=False,
                     controls=[
-                        TextField(
+                        ft.TextField(
                             ref=self.text_field,
                             value=self.item_text,
                             tooltip="field to edit the item",
@@ -303,14 +320,14 @@ class TodoItem(UserControl):
                             label="Edit Item",
                             expand=True,
                             on_submit=self.save_edit,
-                            suffix=ElevatedButton(text="Update", on_click=self.save_edit))
+                            suffix=ft.ElevatedButton(text="Update", on_click=self.save_edit))
                     ],
                 )
             ],
         )
 
 
-def main(page: Page):
+def main(page: ft.Page):
     """
     The entry/main Page of the APP
 
@@ -339,13 +356,11 @@ def main(page: Page):
                   "SF-bold": "/fonts/San-Francisco/SFUIDisplay-Bold.ttf"}
 
     page.theme_mode = "light"
-    page.theme = Theme(
+    page.theme = ft.Theme(
         font_family="SF-simple",
         use_material3=True,
-        visual_density="compact",
+        visual_density=ft.ThemeVisualDensity.COMPACT,
     )
-
-    page.splash = ProgressBar(bar_height=3.5, visible=False)
 
     def change_bg_theme(e):
         """
@@ -353,48 +368,44 @@ def main(page: Page):
 
         :param e: The event that triggered the callback (ControlEvent)
         """
-        page.splash.visible = True
-        page.update()
         page.theme_mode = "light" if page.theme_mode == "dark" else "dark"
-        page.splash.visible = False
         theme_icon_button.selected = not theme_icon_button.selected
-        time.sleep(1.2)
         page.update()
 
     todo = ToDO()
 
-    theme_icon_button = IconButton(
-        icons.DARK_MODE,
-        selected_icon=icons.LIGHT_MODE,
+    theme_icon_button = ft.IconButton(
+        ft.icons.DARK_MODE,
+        selected_icon=ft.icons.LIGHT_MODE,
         selected=False,
         on_click=change_bg_theme, icon_size=40
     )
 
     page.add(
-        Row(
+        ft.Row(
             controls=[
-                Text(
+                ft.Text(
                     value="myToDo App",
-                    text_align="center",
+                    text_align=ft.TextAlign.CENTER,
                     selectable=False,
                     font_family="SF-bold",
-                    weight="bold",
+                    weight=ft.FontWeight.BOLD,
                     size=40
                 ),
                 theme_icon_button
             ],
-            alignment="spaceAround",
+            alignment=ft.MainAxisAlignment.SPACE_AROUND,
         ),
-        Divider(),
+        ft.Divider(),
         todo,
-        Text(
+        ft.Text(
             "Made by TheEthicalBoy",
             italic=True, color="blue",
-            text_align="end",
+            text_align=ft.TextAlign.END,
             expand=True,
         )
     )
 
 
 # running the app
-flet.app(target=main, view=flet.WEB_BROWSER, assets_dir="assets")
+ft.app(target=main, view=ft.WEB_BROWSER, assets_dir="assets")
