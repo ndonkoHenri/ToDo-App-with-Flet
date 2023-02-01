@@ -399,7 +399,7 @@ def main(page: ft.Page):
         ft.Divider(),
         todo,
         ft.Text(
-            "Made by TheEthicalBoy",
+            "Made by @ndonkoHenri aka TheEthicalBoy!",
             italic=True, color="blue",
             text_align=ft.TextAlign.END,
             expand=True,
