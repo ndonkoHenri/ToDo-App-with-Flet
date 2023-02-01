@@ -4,7 +4,7 @@
 
 ## How to Start using?
 
-**_Web version_**: Deployed on [mytodo.fly.dev](https://mytodo.fly.dev/) (hopefully still alive)
+**_Web version_**: Deployed on [todo-1.pages.dev](https://todo-1.pages.dev/) (hopefully still alive)
 
 **_PC Version(MacOS, Linux, Windows)_**: Download from the [releases section of this repo](https://github.com/ndonkoHenri/ToDo-App-with-Flet/releases).
  
