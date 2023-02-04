@@ -1,3 +1,3 @@
-flet==0.4.0.dev1139
+flet==0.4.0.dev1151
 pillow>=9.2.0
 pyinstaller>=5.5
